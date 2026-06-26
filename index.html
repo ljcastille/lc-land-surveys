@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>LC Land Surveys — Lance Castille, PLS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Libre+Franklin:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --ink: #0e1b2a;
+    --navy: #122c44;
+    --navy-2: #1c3a57;
+    --slate: #4a6075;
+    --mist: #6c8298;
+    --line: #d6dee6;
+    --line-soft: #e7edf2;
+    --paper: #f4f7f9;
+    --white: #ffffff;
+    --accent: #1f6feb;
+    --accent-deep: #0e4fb8;
+    --safety: #e8743b;
+    --maxw: 1180px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Space Grotesk', sans-serif;
+    color: var(--ink);
+    background: var(--white);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .mono { font-family: 'IBM Plex Mono', monospace; }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 32px; }
+  .eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px; letter-spacing: .22em; text-transform: uppercase;
+    color: var(--accent); font-weight: 500;
+  }
+  .section-pad { padding: 104px 0; }
+
+  /* ---------- Header ---------- */
+  header {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(255,255,255,.86);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .nav { display: flex; align-items: center; justify-content: space-between; height: 74px; }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand-mark {
+    width: 42px; height: 42px; flex: none;
+    border: 1.5px solid var(--navy); border-radius: 3px;
+    display: grid; place-items: center; position: relative;
+    background: var(--navy);
+  }
+  .brand-mark svg { width: 24px; height: 24px; }
+  .brand-name { font-weight: 700; font-size: 17px; letter-spacing: -.01em; line-height: 1.05; }
+  .brand-name span { display: block; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: .18em; color: var(--mist); font-weight: 400; }
+  .nav-links { display: flex; align-items: center; gap: 34px; }
+  .nav-links a.navlink { font-size: 14.5px; color: var(--slate); font-weight: 500; transition: color .15s; }
+  .nav-links a.navlink:hover { color: var(--ink); }
+  .btn {
+    display: inline-flex; align-items: center; gap: 9px;
+    font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 14.5px;
+    padding: 12px 20px; border-radius: 4px; cursor: pointer; border: 1.5px solid transparent;
+    transition: transform .12s, box-shadow .15s, background .15s;
+  }
+  .btn-primary { background: var(--accent); color: #fff; box-shadow: 0 1px 0 var(--accent-deep); }
+  .btn-primary:hover { background: var(--accent-deep); transform: translateY(-1px); }
+  .btn-ghost { border-color: var(--line); color: var(--ink); background: #fff; }
+  .btn-ghost:hover { border-color: var(--slate); }
+  .btn-dark { background: var(--navy); color: #fff; }
+  .btn-dark:hover { background: var(--ink); transform: translateY(-1px); }
+  .menu-toggle { display: none; background: none; border: 1px solid var(--line); border-radius: 4px; padding: 9px 11px; cursor: pointer; }
+  .menu-toggle svg { width: 20px; height: 20px; display: block; }
+
+  /* ---------- Hero ---------- */
+  .hero { position: relative; overflow: hidden; background: var(--navy); color: #fff; }
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.055) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.055) 1px, transparent 1px);
+    background-size: 46px 46px;
+    mask-image: radial-gradient(ellipse 90% 80% at 70% 30%, #000 30%, transparent 80%);
+  }
+  .hero-inner { position: relative; display: grid; grid-template-columns: 1.05fr .95fr; gap: 56px; align-items: center; padding-top: 96px; padding-bottom: 104px; }
+  .hero h1 { font-size: clamp(38px, 5vw, 62px); line-height: 1.03; letter-spacing: -.025em; font-weight: 600; margin: 22px 0 22px; }
+  .hero h1 em { font-style: normal; color: #7fb2ff; }
+  .hero p.lede { font-size: 18.5px; color: #c2d2e0; max-width: 30em; margin-bottom: 34px; }
+  .hero-eyebrow { color: #7fb2ff; }
+  .hero-cta { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+  .phone-pill {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #cdfbe1;
+  }
+  .phone-pill .dot { width: 7px; height: 7px; border-radius: 50%; background: #36d399; box-shadow: 0 0 0 4px rgba(54,211,153,.18); }
+  .hero-meta { margin-top: 40px; display: flex; gap: 30px; flex-wrap: wrap; }
+  .hero-meta .item { border-left: 2px solid rgba(127,178,255,.5); padding-left: 14px; }
+  .hero-meta .num { font-family: 'IBM Plex Mono', monospace; font-size: 22px; color: #fff; font-weight: 500; }
+  .hero-meta .lbl { font-size: 12.5px; color: #98aec2; }
+
+  /* hero visual — USGS 7.5' quadrangle excerpt */
+  .hero-card {
+    position: relative; border: 1px solid rgba(255,255,255,.22); border-radius: 8px;
+    background: #f1ead9;
+    overflow: hidden; aspect-ratio: 4 / 4.4;
+    box-shadow: 0 30px 60px -30px rgba(0,0,0,.6);
+  }
+  .quad { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .hero-card-tag {
+    position: absolute; left: 0; bottom: 0; right: 0;
+    font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; color: #5b4a32;
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(241,234,217,.92); border-top: 1px solid #c9bd9f;
+    padding: 9px 14px; letter-spacing: .02em;
+  }
+
+  /* ---------- Trust strip ---------- */
+  .trust { background: var(--ink); color: #cdd9e4; border-top: 1px solid rgba(255,255,255,.06); }
+  .trust .wrap { display: flex; flex-wrap: wrap; gap: 14px 64px; align-items: center; justify-content: center; padding: 22px 32px; }
+  .trust .t-item { display: flex; align-items: center; gap: 11px; font-size: 14px; }
+  .trust .t-item svg { width: 18px; height: 18px; color: #7fb2ff; flex: none; }
+  .trust .mono { color: #8198ab; font-size: 12.5px; letter-spacing: .04em; }
+
+  /* ---------- Section heading ---------- */
+  .sec-head { max-width: none; margin-bottom: 56px; }
+  .sec-head h2 { font-size: clamp(28px, 3.4vw, 42px); letter-spacing: -.02em; line-height: 1.08; font-weight: 600; margin: 14px 0 16px; }
+  .sec-head p { font-size: 17.5px; color: var(--slate); }
+
+  /* ---------- Services ---------- */
+  #services { background: var(--paper); border-top: 1px solid var(--line-soft); border-bottom: 1px solid var(--line-soft); }
+  .svc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .svc {
+    background: #fff; border: 1px solid var(--line); border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0; padding: 24px 26px; display: flex; gap: 18px;
+    transition: transform .16s, box-shadow .16s;
+  }
+  .svc:hover { transform: translateX(3px); box-shadow: 0 12px 26px -18px rgba(14,27,42,.4); }
+  .svc .ic { width: 28px; height: 28px; color: var(--accent); flex: none; margin-top: 3px; }
+  .svc h3 { font-family: 'Libre Franklin', sans-serif; font-size: 18px; letter-spacing: -.01em; margin-bottom: 6px; font-weight: 600; }
+  .svc p { font-family: 'Libre Franklin', sans-serif; font-size: 14px; color: var(--slate); line-height: 1.5; }
+  .svc.svc-cta { flex-direction: column; gap: 8px; justify-content: center; background: var(--navy); border-color: var(--navy); border-left-color: #7fb2ff; color: #fff; }
+  .svc.svc-cta:hover { transform: none; box-shadow: 0 16px 30px -20px rgba(0,0,0,.5); }
+
+  /* ---------- Audience ---------- */
+  .aud-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 16px; margin-top: 8px; }
+  .aud { border: 1px solid var(--line); border-radius: 6px; padding: 20px 18px; background: #fff; }
+  .aud svg { width: 24px; height: 24px; color: var(--navy-2); margin-bottom: 12px; }
+  .aud h4 { font-family: 'Libre Franklin', sans-serif; font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+  .aud p { font-family: 'Libre Franklin', sans-serif; font-size: 13px; color: var(--mist); }
+
+  /* ---------- Process ---------- */
+  #process { background: var(--navy); color: #fff; position: relative; overflow: hidden; }
+  #process .hero-grid { mask-image: radial-gradient(ellipse 80% 90% at 20% 20%, #000 20%, transparent 75%); }
+  .proc-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 28px; position: relative; }
+  .proc { position: relative; padding-top: 30px; }
+  .proc::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: rgba(127,178,255,.28); }
+  .proc::after { content: ''; position: absolute; top: -4px; left: 0; width: 10px; height: 10px; border-radius: 50%; background: #7fb2ff; }
+  .proc .step { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #7fb2ff; letter-spacing: .14em; }
+  .proc h3 { font-size: 20px; margin: 12px 0 9px; font-weight: 600; }
+  .proc p { font-size: 14.5px; color: #b3c6d6; }
+
+  /* ---------- About ---------- */
+  .about-grid { display: block; max-width: 760px; }
+  .about-photo { position: relative; }
+  .ph { position: relative; background:
+      repeating-linear-gradient(135deg, #e9eef3 0 11px, #f4f7f9 11px 22px);
+    border: 1px solid var(--line); border-radius: 8px; display: grid; place-items: center; overflow: hidden; }
+  .ph .ph-lbl { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--mist); letter-spacing: .08em; text-align: center; padding: 12px 16px; background: rgba(255,255,255,.7); border: 1px dashed var(--line); border-radius: 4px; }
+  .about-photo .ph { aspect-ratio: 4/5; }
+  .about-badge {
+    position: absolute; bottom: -18px; right: -18px; background: var(--navy); color: #fff;
+    border-radius: 8px; padding: 16px 20px; box-shadow: 0 16px 30px -16px rgba(0,0,0,.5);
+  }
+  .about-badge .pls { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #7fb2ff; letter-spacing: .12em; }
+  .about-badge .nm { font-size: 18px; font-weight: 600; }
+  .about h2 { font-size: clamp(28px,3.4vw,40px); letter-spacing: -.02em; line-height: 1.1; margin: 14px 0 20px; font-weight: 600; }
+  .about p { font-size: 16.5px; color: var(--slate); margin-bottom: 16px; max-width: 36em; }
+  .cred-list { list-style: none; margin-top: 24px; display: grid; gap: 12px; }
+  .cred-list li { display: flex; gap: 12px; align-items: flex-start; font-size: 15px; }
+  .cred-list svg { width: 19px; height: 19px; color: var(--accent); flex: none; margin-top: 2px; }
+
+  /* ---------- Areas ---------- */
+  #areas { background: var(--paper); border-top: 1px solid var(--line-soft); }
+  .areas-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+  .area-list { display: grid; gap: 14px; margin-top: 26px; }
+  .area-row { display: flex; align-items: center; gap: 16px; background: #fff; border: 1px solid var(--line); border-radius: 6px; padding: 18px 22px; transition: .15s; }
+  .area-row:hover { border-color: var(--accent); transform: translateX(3px); }
+  .area-row .pin { width: 38px; height: 38px; flex: none; border-radius: 50%; display: grid; place-items: center; background: #eaf2fe; color: var(--accent); }
+  .area-row .pin svg { width: 19px; height: 19px; }
+  .area-row h4 { font-size: 16.5px; font-weight: 600; }
+  .area-row .coord { margin-left: auto; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--mist); }
+  .map-ph { aspect-ratio: 1/1; }
+  .map-ph.ph { background:
+      linear-gradient(rgba(74,96,117,.10) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(74,96,117,.10) 1px, transparent 1px),
+      repeating-linear-gradient(135deg, #eef2f6 0 11px, #f6f9fb 11px 22px);
+    background-size: 32px 32px, 32px 32px, auto; }
+
+  /* ---------- Testimonials ---------- */
+  .quote-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
+  .quote { border: 1px solid var(--line); border-radius: 8px; padding: 30px 28px; background: #fff; display: flex; flex-direction: column; }
+  .quote .mark { font-family: 'IBM Plex Mono', monospace; color: var(--accent); font-size: 30px; line-height: 1; margin-bottom: 12px; }
+  .quote p { font-size: 15.5px; color: var(--ink); line-height: 1.55; margin-bottom: 22px; }
+  .quote .by { margin-top: auto; display: flex; align-items: center; gap: 12px; border-top: 1px solid var(--line-soft); padding-top: 16px; }
+  .quote .av { width: 40px; height: 40px; border-radius: 50%; background: var(--paper); border: 1px solid var(--line); display: grid; place-items: center; font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--slate); }
+  .quote .by .n { font-size: 14.5px; font-weight: 600; }
+  .quote .by .r { font-size: 12.5px; color: var(--mist); }
+
+  /* ---------- Quote / Contact ---------- */
+  #contact { background: var(--ink); color: #fff; position: relative; overflow: hidden; }
+  #contact .hero-grid { mask-image: radial-gradient(ellipse 70% 90% at 85% 50%, #000 10%, transparent 70%); }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; position: relative; }
+  .contact-left h2 { font-size: clamp(30px,3.6vw,46px); letter-spacing: -.02em; line-height: 1.06; margin: 16px 0 18px; font-weight: 600; }
+  .contact-left p { color: #aebfce; font-size: 17px; max-width: 30em; margin-bottom: 34px; }
+  .contact-cards { display: grid; gap: 14px; max-width: 380px; }
+  .cc { display: flex; align-items: center; gap: 16px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.12); border-radius: 8px; padding: 18px 20px; transition: .15s; }
+  .cc:hover { background: rgba(255,255,255,.09); border-color: rgba(127,178,255,.5); }
+  .cc .ic { width: 44px; height: 44px; flex: none; border-radius: 8px; background: var(--accent); display: grid; place-items: center; }
+  .cc .ic svg { width: 21px; height: 21px; color: #fff; }
+  .cc .lbl { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8fb6da; letter-spacing: .12em; text-transform: uppercase; }
+  .cc .val { font-size: 17px; font-weight: 600; }
+  .form-card { background: #fff; border-radius: 10px; padding: 32px; color: var(--ink); box-shadow: 0 30px 60px -30px rgba(0,0,0,.5); }
+  .form-card h3 { font-size: 20px; font-weight: 600; margin-bottom: 4px; }
+  .form-card .sub { font-size: 13.5px; color: var(--mist); margin-bottom: 22px; }
+  .field { margin-bottom: 15px; }
+  .field label { display: block; font-size: 12.5px; font-weight: 600; color: var(--slate); margin-bottom: 6px; font-family: 'IBM Plex Mono', monospace; letter-spacing: .03em; }
+  .field input, .field select, .field textarea {
+    width: 100%; font-family: 'Space Grotesk', sans-serif; font-size: 15px; color: var(--ink);
+    padding: 12px 14px; border: 1.5px solid var(--line); border-radius: 6px; background: #fbfdfe; transition: .15s;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--accent); background: #fff; box-shadow: 0 0 0 3px rgba(31,111,235,.12); }
+  .field textarea { resize: vertical; min-height: 92px; }
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .form-card button { width: 100%; justify-content: center; margin-top: 6px; }
+  .form-note { font-size: 12px; color: var(--mist); text-align: center; margin-top: 12px; }
+  .form-success { display: none; text-align: center; padding: 24px 8px; }
+  .form-success.show { display: block; }
+  .form-success svg { width: 48px; height: 48px; color: #1f9d57; margin: 0 auto 14px; }
+  .form-success h3 { font-size: 21px; margin-bottom: 8px; }
+  .form-success p { color: var(--slate); font-size: 15px; }
+
+  /* ---------- Footer ---------- */
+  footer { background: #0a141f; color: #8198ab; padding: 56px 0 30px; }
+  .foot-top { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 40px; padding-bottom: 36px; border-bottom: 1px solid rgba(255,255,255,.08); }
+  .foot-brand .brand-name { color: #fff; }
+  .foot-brand p { margin-top: 16px; font-size: 14px; max-width: 30em; }
+  .foot-col h5 { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: #5f7488; margin-bottom: 16px; }
+  .foot-col a, .foot-col p { display: block; font-size: 14px; color: #aebfce; margin-bottom: 10px; }
+  .foot-col a:hover { color: #fff; }
+  .foot-bottom { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; padding-top: 24px; font-size: 12.5px; }
+  .foot-bottom .lic { font-family: 'IBM Plex Mono', monospace; color: #7fb2ff; }
+
+  /* reveal */
+  .reveal { opacity: 0; transform: translateY(22px); transition: opacity .6s ease, transform .6s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+
+  @media (max-width: 940px) {
+    .hero-inner, .about-grid, .areas-grid, .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+    .hero-card { max-width: 380px; display: none; }
+    .svc-grid { grid-template-columns: repeat(2,1fr); }
+    .proc-grid { grid-template-columns: repeat(2,1fr); }
+    .aud-grid { grid-template-columns: repeat(2,1fr); }
+    .quote-grid { grid-template-columns: 1fr; }
+    .foot-top { grid-template-columns: 1fr 1fr; }
+    .about-photo { max-width: 360px; }
+  }
+  @media (max-width: 640px) {
+    .wrap { padding: 0 26px; }
+    .section-pad { padding: 72px 0; }
+    .nav-links { display: none; }
+    .menu-toggle { display: block; }
+    .hero-card { display: none; }
+    .hero-card { display: none; }
+    .svc-grid, .aud-grid, .proc-grid { grid-template-columns: 1fr; }
+    .row2 { grid-template-columns: 1fr; }
+    .hero-meta { gap: 20px; }
+    .mobile-open .nav-links {
+      display: flex; position: absolute; top: 74px; left: 0; right: 0; flex-direction: column;
+      background: #fff; border-bottom: 1px solid var(--line); padding: 18px 20px; gap: 16px; align-items: flex-start;
+    }
+  }
+</style>
+</head>
+<body>
+
+<template id="__bundler_thumbnail" data-bg-color="#122c44">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#122c44"/>
+    <circle cx="600" cy="400" r="150" fill="none" stroke="#7fb2ff" stroke-width="10"/>
+    <path d="M600 200 V600 M400 400 H800" stroke="#7fb2ff" stroke-width="10"/>
+    <circle cx="600" cy="400" r="26" fill="#1f6feb"/>
+  </svg>
+</template>
+
+<header id="top">
+  <div class="wrap nav">
+    <a href="#top" class="brand">
+      <span class="brand-mark">
+        <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="7" stroke="#7fb2ff" stroke-width="1.4"/><path d="M12 2v20M2 12h20" stroke="#7fb2ff" stroke-width="1.4"/></svg>
+      </span>
+      <span class="brand-name">LC Land Surveys</span>
+    </a>
+    <nav class="nav-links">
+      <a class="navlink" href="#services">Services</a>
+      <a class="navlink" href="#process">Process</a>
+      <a class="navlink" href="#areas">Areas</a>
+      <a class="btn btn-primary" href="tel:+13377818375">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        Call / Text Lance
+      </a>
+    </nav>
+    <button class="menu-toggle" aria-label="Menu" onclick="document.body.classList.toggle('mobile-open')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="wrap hero-inner">
+    <div>
+      <span class="eyebrow hero-eyebrow">Acadia · St. Landry · Lafayette Parishes</span>
+      <h1>Land Surveys</h1>
+      <p class="lede">Professional Land Surveying across Acadiana. Boundary Surveys, ALTA/NSPS Land Title Surveys, Topographic Surveys, and FEMA Elevation Certificates, performed by a Licensed Louisiana Surveyor.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="tel:+13377818375">Call / Text (337) 781-8375</a>
+        <a class="btn btn-ghost" style="background:transparent;color:#fff;border-color:rgba(255,255,255,.28)" href="#services">View services</a>
+      </div>
+    </div>
+    <div>
+      <div class="hero-card">
+        <svg class="quad" viewBox="0 0 400 440" preserveAspectRatio="xMidYMid slice" fill="none">
+          <!-- paper -->
+          <rect x="0" y="0" width="400" height="440" fill="#f1ead9"/>
+          <!-- woodland tint -->
+          <path d="M250,-5 L405,-5 L405,150 C360,158 300,128 272,86 C256,60 250,24 250,-5 Z" fill="#d2e2c4" opacity=".75"/>
+          <path d="M-5,360 L120,360 C110,400 60,418 -5,420 Z" fill="#d2e2c4" opacity=".7"/>
+          <!-- UTM grid -->
+          <g stroke="#b9ac8d" stroke-width="0.6" opacity=".55">
+            <path d="M80,0 V440"/><path d="M160,0 V440"/><path d="M240,0 V440"/><path d="M320,0 V440"/>
+            <path d="M0,88 H400"/><path d="M0,176 H400"/><path d="M0,264 H400"/><path d="M0,352 H400"/>
+          </g>
+          <!-- blue tick marks at grid intersections -->
+          <g stroke="#4f8fc4" stroke-width="1">
+            <path d="M80,84 v8 M76,88 h8"/><path d="M240,172 v8 M236,176 h8"/><path d="M160,260 v8 M156,264 h8"/><path d="M320,348 v8 M316,352 h8"/>
+          </g>
+          <!-- contour lines (intermediate) -->
+          <g stroke="#c0884c" stroke-width="1" stroke-linecap="round">
+            <path d="M-5,40 C80,26 150,30 215,52 C252,66 272,46 405,32"/>
+            <path d="M-5,76 C80,60 150,66 215,90 C250,104 274,82 405,66"/>
+            <path d="M-5,148 C82,132 150,138 215,164 C250,178 276,156 405,142"/>
+            <path d="M-5,184 C80,170 150,174 215,200 C252,214 272,194 405,178"/>
+            <path d="M-5,256 C80,242 150,248 215,274 C252,288 272,266 405,252"/>
+            <path d="M-5,292 C82,278 150,282 215,310 C250,324 276,302 405,288"/>
+            <path d="M-5,364 C82,350 150,354 215,382 C250,396 276,374 405,360"/>
+            <path d="M-5,400 C80,386 150,392 215,418 C252,432 272,410 405,396"/>
+          </g>
+          <!-- index contours (heavier) + elevation labels -->
+          <g stroke="#a76d33" stroke-width="1.8" stroke-linecap="round">
+            <path d="M-5,112 C80,98 150,102 215,126 C252,140 272,120 405,104"/>
+            <path d="M-5,220 C82,206 150,210 215,238 C250,252 276,230 405,216"/>
+            <path d="M-5,328 C80,314 150,320 215,346 C252,360 272,338 405,324"/>
+          </g>
+          <g fill="#8f5b27" font-family="Georgia, serif" font-style="italic" font-size="12">
+            <text x="58" y="104">40</text>
+            <text x="58" y="212">30</text>
+            <text x="58" y="320">20</text>
+          </g>
+          <!-- small hilltop closed contour -->
+          <g stroke="#c0884c" stroke-width="1" fill="none">
+            <path d="M300,150 C320,132 360,138 366,162 C370,182 344,196 320,192 C302,189 290,170 300,150 Z"/>
+          </g>
+          <!-- water: stream + pond -->
+          <path d="M300,-5 C292,60 250,96 256,150 C262,206 222,244 218,298 C215,338 232,392 212,445" stroke="#5a9bcf" stroke-width="1.8" fill="none"/>
+          <path d="M256,150 C220,140 190,150 170,170" stroke="#5a9bcf" stroke-width="1.2" fill="none"/>
+          <ellipse cx="96" cy="300" rx="40" ry="24" fill="#bcd9ec" stroke="#5a9bcf" stroke-width="1.2"/>
+          <!-- roads -->
+          <path d="M-5,250 C120,242 180,205 405,176" stroke="#d24b32" stroke-width="2.2" fill="none"/>
+          <path d="M150,-5 C158,80 130,140 150,210 C165,265 150,320 165,445" stroke="#6a6052" stroke-width="1.2" fill="none" stroke-dasharray="0"/>
+          <!-- building -->
+          <rect x="183" y="196" width="9" height="9" fill="#33302a"/>
+          <rect x="120" y="238" width="8" height="8" fill="#33302a"/>
+          <!-- survey control points -->
+          <g stroke="#2a2620" stroke-width="1.4">
+            <path d="M120,120 v14 M113,127 h14"/>
+            <path d="M300,360 v14 M293,367 h14"/>
+          </g>
+          <g fill="#2a2620">
+            <path d="M334,300 l6,10 h-12 Z"/>
+          </g>
+          <g fill="#2a2620" font-family="IBM Plex Mono, monospace" font-size="9">
+            <text x="129" y="124">CP 1</text>
+            <text x="309" y="364">CP 2</text>
+            <text x="344" y="309">BM 32</text>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST -->
+<div class="trust">
+  <div class="wrap">
+    <div class="t-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z"/></svg> Professional Land Surveyor, Louisiana</div>
+    <div class="t-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Insured</div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services" class="section-pad">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <h2>A Full Range of Professional Survey Services</h2>
+    </div>
+    <div class="svc-grid reveal">
+      <div class="svc">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 9h18M9 3v18"/></svg>
+        <div>
+          <h3>Land Boundary Surveys</h3>
+          <p>Defines exactly where your property begins and ends — marked corners and a plat (if required) before you build, buy, or sell.</p>
+        </div>
+      </div>
+      <div class="svc">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h6"/></svg>
+        <div>
+          <h3>ALTA/NSPS Land Title Surveys</h3>
+          <p>The national standard for commercial transactions. Detailed surveys for lenders, title companies, and attorneys.</p>
+        </div>
+      </div>
+      <div class="svc">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 18c3-6 6 2 9-2s5-8 9-4"/><path d="M3 14c3-6 6 2 9-2s5-8 9-4" opacity=".5"/></svg>
+        <div>
+          <h3>Topographic Surveys</h3>
+          <p>Precise elevation and feature mapping for engineers and architects — contours, utilities, and existing conditions for design.</p>
+        </div>
+      </div>
+      <div class="svc">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 15c2-1 4-1 6 0s4 1 6 0 4-1 6 0"/><path d="M3 19c2-1 4-1 6 0s4 1 6 0 4-1 6 0"/><path d="M12 3v8M9 6l3-3 3 3"/></svg>
+        <div>
+          <h3>FEMA Elevation Certificates</h3>
+          <p>Elevation data for flood insurance and permitting.</p>
+        </div>
+      </div>
+      <div class="svc">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="8" height="8"/><rect x="13" y="3" width="8" height="8"/><rect x="3" y="13" width="8" height="8"/><rect x="13" y="13" width="8" height="8"/></svg>
+        <div>
+          <h3>Land Subdivisions</h3>
+          <p>Split a parent tract into lots, with a plat prepared to parish and state requirements — ready to file.</p>
+        </div>
+      </div>
+      <div class="svc">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="5" cy="5" r="2"/><circle cx="19" cy="5" r="2"/><circle cx="12" cy="19" r="2"/><path d="M6.5 6.5 11 17M17.5 6.5 13 17M7 5h10"/></svg>
+        <div>
+          <h3>Control Networks</h3>
+          <p>High-accuracy survey control for large sites and construction — a reliable network for job site layout.</p>
+        </div>
+      </div>
+      <div class="svc">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 7h10M7 11h10M7 15h6"/><path d="M4 3v18" stroke-width="1.6"/></svg>
+        <div>
+          <h3>Legal Descriptions</h3>
+          <p>Metes-and-bounds descriptions written for deeds, easements, closings — clear and recordable.</p>
+        </div>
+      </div>
+      <div class="svc svc-cta">
+        <h3 style="color:#fff">Not sure what you need?</h3>
+        <p style="color:#b3c6d6">Tell Lance about your property and he'll point you to the right survey.</p>
+        <a class="btn btn-primary" style="margin-top:14px;align-self:flex-start" href="#contact">Get a recommendation</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AUDIENCE -->
+<section class="section-pad" style="padding-top:96px">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <h2>People We'd Love to Help</h2>
+    </div>
+    <div class="aud-grid reveal">
+      <div class="aud"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/></svg><h4>Developers &amp; Builders</h4><p>Site control, subdivisions, topo.</p></div>
+      <div class="aud"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M2 20h20M4 20V8l8-5 8 5v12M9 12h6M9 16h6"/></svg><h4>Engineers &amp; Architects</h4><p>Asbuilt, topo &amp; control.</p></div>
+      <div class="aud"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3v18M5 7h14M7 7l-3 7h6zM17 7l3 7h-6z"/></svg><h4>Attorneys &amp; Title</h4><p>ALTA, descriptions, exhibits.</p></div>
+      <div class="aud"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 10l9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></svg><h4>Homeowners</h4><p>Fences, additions, pools.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process" class="section-pad">
+  <div class="hero-grid"></div>
+  <div class="wrap" style="position:relative">
+    <div class="sec-head reveal" style="color:#fff">
+      <h2 style="color:#fff">A Clear Path From Initial Call to Deliverable</h2>
+    </div>
+    <div class="proc-grid reveal">
+      <div class="proc"><div class="step">STEP 01</div><h3>Reach Out</h3><p>Call or text with your property address and what you're trying to accomplish.</p></div>
+      <div class="proc"><div class="step">STEP 02</div><h3>Scope &amp; Quote</h3><p>A clear written proposal — scope, timeline, and straightforward pricing.</p></div>
+      <div class="proc"><div class="step">STEP 03</div><h3>Job Preparation and Fieldwork</h3><p>Prep any necessary materials for the project and then collect field data.</p></div>
+      <div class="proc"><div class="step">STEP 04</div><h3>Deliverables</h3><p>A stamped report, plat, or certificate — ready for your closing, permit, or design.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- AREAS -->
+<section id="areas" class="section-pad">
+  <div class="wrap areas-grid">
+    <div class="reveal">
+      <h2 class="sec-head" style="margin-bottom:8px;font-size:clamp(28px,3.4vw,40px);">Areas Served</h2>
+      <div class="area-list">
+        <div class="area-row"><span class="pin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span><h4>Acadia Parish</h4><span class="coord">CROWLEY · RAYNE</span></div>
+        <div class="area-row"><span class="pin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span><h4>St. Landry Parish</h4><span class="coord">OPELOUSAS · EUNICE</span></div>
+        <div class="area-row"><span class="pin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span><h4>Lafayette Parish</h4><span class="coord">LAFAYETTE · SCOTT</span></div>
+        <div class="area-row"><span class="pin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/><circle cx="12" cy="12" r="4"/></svg></span><h4>Surrounding Areas</h4><span class="coord">CALL TO CONFIRM</span></div>
+      </div>
+    </div>
+    <div class="reveal">
+      <div class="ph map-ph">
+        <span class="ph-lbl">[ SERVICE-AREA MAP ]<br/>parish boundaries · pins</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT / QUOTE -->
+<section id="contact" class="section-pad">
+  <div class="hero-grid"></div>
+  <div class="wrap contact-grid">
+    <div class="contact-left reveal">
+      <h2>Tell Me About Your Property</h2>
+      <p>The fastest way to get moving is a call or text. Prefer to write it down? Send the details.</p>
+      <div class="contact-cards">
+        <a class="cc" href="tel:+13377818375">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>
+          <div><div class="lbl">Call or text</div><div class="val">(337) 781-8375</div></div>
+        </a>
+        <a class="cc" href="mailto:ljcastille@gmail.com">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg></span>
+          <div><div class="lbl">Email</div><div class="val">ljcastille@gmail.com</div></div>
+        </a>
+        <div class="cc" style="cursor:default">
+          <span class="ic" style="background:#1c3a57"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></span>
+          <div><div class="lbl">Surveyor</div><div class="val">Lance Castille, PLS</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="reveal">
+      <form class="form-card" id="quoteForm">
+        <h3>Request a Quote</h3>
+        <p class="sub">Typically a same-day reply.</p>
+        <div class="row2">
+          <div class="field"><label>Name</label><input required name="name" /></div>
+          <div class="field"><label>Phone</label><input required name="phone" /></div>
+        </div>
+        <div class="field"><label>Email</label><input type="email" name="email" /></div>
+        <div class="row2">
+          <div class="field"><label>Parish</label>
+            <select name="parish"><option>Acadia</option><option>St. Landry</option><option selected>Lafayette</option><option>Other / nearby</option></select>
+          </div>
+          <div class="field"><label>Service</label>
+            <select name="service"><option>Boundary Survey</option><option>ALTA/NSPS</option><option>Topographic</option><option>FEMA Elevation Cert.</option><option>Subdivision</option><option>Control Network</option><option>Legal Description</option><option>Not sure yet</option></select>
+          </div>
+        </div>
+        <div class="field"><label>Project details</label><textarea name="details" placeholder="Property address, what you need, and any deadline."></textarea></div>
+        <button class="btn btn-primary" type="submit">Send request →</button>
+      </form>
+      <div class="form-success form-card" id="formSuccess">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg>
+        <h3>Request received.</h3>
+        <p>Thanks — Lance will follow up shortly. For anything urgent, call or text (337) 781-8375.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <div class="brand-name" style="font-size:19px">LC Land Surveys</div>
+        <p>Professional Land Surveying across Acadiana — Boundary Surveys, ALTA/NSPS Land Title Surveys, Topographic Surveys, and FEMA Elevation Certificates, performed by a Licensed Louisiana Surveyor.</p>
+      </div>
+      <div class="foot-col">
+        <h5>Services</h5>
+        <a href="#services">Boundary Surveys</a>
+        <a href="#services">ALTA/NSPS Land Title Surveys</a>
+        <a href="#services">Topographic Surveys</a>
+        <a href="#services">FEMA Elevation Certificates</a>
+        <a href="#services">Subdivisions</a>
+      </div>
+      <div class="foot-col">
+        <h5>Contact</h5>
+        <a href="tel:+13377818375">(337) 781-8375</a>
+        <a href="mailto:ljcastille@gmail.com">ljcastille@gmail.com</a>
+        <p>Lance Castille, PLS</p>
+        <p>Lafayette, Louisiana</p>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 LC Land Surveys. All rights reserved.</span>
+      <span class="lic">LICENSED TO PRACTICE LAND SURVEYING — STATE OF LOUISIANA</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // mobile nav close on click
+  document.querySelectorAll('.nav-links a').forEach(a => a.addEventListener('click', () => document.body.classList.remove('mobile-open')));
+  // reveal on scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  // form
+  const form = document.getElementById('quoteForm');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (!form.checkValidity()) { form.reportValidity(); return; }
+    form.style.display = 'none';
+    document.getElementById('formSuccess').classList.add('show');
+  });
+</script>
+</body>
+</html>
