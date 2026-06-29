@@ -41,7 +41,7 @@
     font-size: 12px; letter-spacing: .22em; text-transform: uppercase;
     color: var(--accent); font-weight: 500;
   }
-  .section-pad { padding: 88px 0; }
+  .section-pad { padding: 104px 0; }
 
   /* ---------- Header ---------- */
   header {
@@ -89,7 +89,7 @@
     background-size: 46px 46px;
     mask-image: radial-gradient(ellipse 90% 80% at 70% 30%, #000 30%, transparent 80%);
   }
-  .hero-inner { position: relative; display: grid; grid-template-columns: 1.05fr .95fr; gap: 56px; align-items: center; padding-top: 96px; padding-bottom: 104px; }
+  .hero-inner { position: relative; display: block; max-width: 760px; padding-top: 96px; padding-bottom: 104px; }
   .hero h1 { font-size: clamp(38px, 5vw, 62px); line-height: 1.03; letter-spacing: -.025em; font-weight: 600; margin: 22px 0 22px; }
   .hero h1 em { font-style: normal; color: #7fb2ff; }
   .hero p.lede { font-size: 18.5px; color: #c2d2e0; max-width: 30em; margin-bottom: 34px; }
@@ -188,8 +188,8 @@
 
   /* ---------- Areas ---------- */
   #areas { background: var(--paper); border-top: 1px solid var(--line-soft); }
-  .areas-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
-  .area-list { display: grid; gap: 14px; margin-top: 26px; }
+  .areas-grid { display: block; }
+  .area-list { display: grid; grid-template-columns: repeat(2,1fr); gap: 14px; margin-top: 26px; }
   .area-row { display: flex; align-items: center; gap: 16px; background: #fff; border: 1px solid var(--line); border-radius: 6px; padding: 18px 22px; transition: .15s; }
   .area-row:hover { border-color: var(--accent); transform: translateX(3px); }
   .area-row .pin { width: 38px; height: 38px; flex: none; border-radius: 50%; display: grid; place-items: center; background: #eaf2fe; color: var(--accent); }
@@ -216,7 +216,7 @@
   /* ---------- Quote / Contact ---------- */
   #contact { background: var(--ink); color: #fff; position: relative; overflow: hidden; }
   #contact .hero-grid { mask-image: radial-gradient(ellipse 70% 90% at 85% 50%, #000 10%, transparent 70%); }
-  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; position: relative; }
+  .contact-grid { display: block; position: relative; }
   .contact-left h2 { font-size: clamp(30px,3.6vw,46px); letter-spacing: -.02em; line-height: 1.06; margin: 16px 0 18px; font-weight: 600; }
   .contact-left p { color: #aebfce; font-size: 17px; max-width: 30em; margin-bottom: 34px; }
   .contact-cards { display: grid; gap: 14px; max-width: 380px; }
@@ -270,12 +270,10 @@
     .quote-grid { grid-template-columns: 1fr; }
     .foot-top { grid-template-columns: 1fr 1fr; }
     .about-photo { max-width: 360px; }
-    .map-ph { display: none; }
-    .contact-cards { max-width: none; }
   }
   @media (max-width: 640px) {
     .wrap { padding: 0 26px; }
-    .section-pad { padding: 60px 0; }
+    .section-pad { padding: 72px 0; }
     .nav-links { display: none; }
     .menu-toggle { display: block; }
     .hero-card { display: none; }
@@ -283,8 +281,6 @@
     .svc-grid, .aud-grid, .proc-grid { grid-template-columns: 1fr; }
     .row2 { grid-template-columns: 1fr; }
     .hero-meta { gap: 20px; }
-    .map-ph { display: none; }
-    .contact-cards { max-width: none; }
     .mobile-open .nav-links {
       display: flex; position: absolute; top: 74px; left: 0; right: 0; flex-direction: column;
       background: #fff; border-bottom: 1px solid var(--line); padding: 18px 20px; gap: 16px; align-items: flex-start;
@@ -337,75 +333,6 @@
       <div class="hero-cta">
         <a class="btn btn-primary" href="tel:+13377818375">Call / Text (337) 781-8375</a>
         <a class="btn btn-ghost" style="background:transparent;color:#fff;border-color:rgba(255,255,255,.28)" href="#services">View services</a>
-      </div>
-    </div>
-    <div>
-      <div class="hero-card">
-        <svg class="quad" viewBox="0 0 400 440" preserveAspectRatio="xMidYMid slice" fill="none">
-          <!-- paper -->
-          <rect x="0" y="0" width="400" height="440" fill="#f1ead9"/>
-          <!-- woodland tint -->
-          <path d="M250,-5 L405,-5 L405,150 C360,158 300,128 272,86 C256,60 250,24 250,-5 Z" fill="#d2e2c4" opacity=".75"/>
-          <path d="M-5,360 L120,360 C110,400 60,418 -5,420 Z" fill="#d2e2c4" opacity=".7"/>
-          <!-- UTM grid -->
-          <g stroke="#b9ac8d" stroke-width="0.6" opacity=".55">
-            <path d="M80,0 V440"/><path d="M160,0 V440"/><path d="M240,0 V440"/><path d="M320,0 V440"/>
-            <path d="M0,88 H400"/><path d="M0,176 H400"/><path d="M0,264 H400"/><path d="M0,352 H400"/>
-          </g>
-          <!-- blue tick marks at grid intersections -->
-          <g stroke="#4f8fc4" stroke-width="1">
-            <path d="M80,84 v8 M76,88 h8"/><path d="M240,172 v8 M236,176 h8"/><path d="M160,260 v8 M156,264 h8"/><path d="M320,348 v8 M316,352 h8"/>
-          </g>
-          <!-- contour lines (intermediate) -->
-          <g stroke="#c0884c" stroke-width="1" stroke-linecap="round">
-            <path d="M-5,40 C80,26 150,30 215,52 C252,66 272,46 405,32"/>
-            <path d="M-5,76 C80,60 150,66 215,90 C250,104 274,82 405,66"/>
-            <path d="M-5,148 C82,132 150,138 215,164 C250,178 276,156 405,142"/>
-            <path d="M-5,184 C80,170 150,174 215,200 C252,214 272,194 405,178"/>
-            <path d="M-5,256 C80,242 150,248 215,274 C252,288 272,266 405,252"/>
-            <path d="M-5,292 C82,278 150,282 215,310 C250,324 276,302 405,288"/>
-            <path d="M-5,364 C82,350 150,354 215,382 C250,396 276,374 405,360"/>
-            <path d="M-5,400 C80,386 150,392 215,418 C252,432 272,410 405,396"/>
-          </g>
-          <!-- index contours (heavier) + elevation labels -->
-          <g stroke="#a76d33" stroke-width="1.8" stroke-linecap="round">
-            <path d="M-5,112 C80,98 150,102 215,126 C252,140 272,120 405,104"/>
-            <path d="M-5,220 C82,206 150,210 215,238 C250,252 276,230 405,216"/>
-            <path d="M-5,328 C80,314 150,320 215,346 C252,360 272,338 405,324"/>
-          </g>
-          <g fill="#8f5b27" font-family="Georgia, serif" font-style="italic" font-size="12">
-            <text x="58" y="104">40</text>
-            <text x="58" y="212">30</text>
-            <text x="58" y="320">20</text>
-          </g>
-          <!-- small hilltop closed contour -->
-          <g stroke="#c0884c" stroke-width="1" fill="none">
-            <path d="M300,150 C320,132 360,138 366,162 C370,182 344,196 320,192 C302,189 290,170 300,150 Z"/>
-          </g>
-          <!-- water: stream + pond -->
-          <path d="M300,-5 C292,60 250,96 256,150 C262,206 222,244 218,298 C215,338 232,392 212,445" stroke="#5a9bcf" stroke-width="1.8" fill="none"/>
-          <path d="M256,150 C220,140 190,150 170,170" stroke="#5a9bcf" stroke-width="1.2" fill="none"/>
-          <ellipse cx="96" cy="300" rx="40" ry="24" fill="#bcd9ec" stroke="#5a9bcf" stroke-width="1.2"/>
-          <!-- roads -->
-          <path d="M-5,250 C120,242 180,205 405,176" stroke="#d24b32" stroke-width="2.2" fill="none"/>
-          <path d="M150,-5 C158,80 130,140 150,210 C165,265 150,320 165,445" stroke="#6a6052" stroke-width="1.2" fill="none" stroke-dasharray="0"/>
-          <!-- building -->
-          <rect x="183" y="196" width="9" height="9" fill="#33302a"/>
-          <rect x="120" y="238" width="8" height="8" fill="#33302a"/>
-          <!-- survey control points -->
-          <g stroke="#2a2620" stroke-width="1.4">
-            <path d="M120,120 v14 M113,127 h14"/>
-            <path d="M300,360 v14 M293,367 h14"/>
-          </g>
-          <g fill="#2a2620">
-            <path d="M334,300 l6,10 h-12 Z"/>
-          </g>
-          <g fill="#2a2620" font-family="IBM Plex Mono, monospace" font-size="9">
-            <text x="129" y="124">CP 1</text>
-            <text x="309" y="364">CP 2</text>
-            <text x="344" y="309">BM 32</text>
-          </g>
-        </svg>
       </div>
     </div>
   </div>
@@ -527,11 +454,6 @@
         <div class="area-row"><span class="pin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/><circle cx="12" cy="12" r="4"/></svg></span><h4>Surrounding Areas</h4><span class="coord">CALL TO CONFIRM</span></div>
       </div>
     </div>
-    <div class="reveal">
-      <div class="ph map-ph">
-        <span class="ph-lbl">[ SERVICE-AREA MAP ]<br/>parish boundaries · pins</span>
-      </div>
-    </div>
   </div>
 </section>
 
@@ -555,32 +477,6 @@
           <span class="ic" style="background:#1c3a57"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></span>
           <div><div class="lbl">Surveyor</div><div class="val">Lance Castille, PLS</div></div>
         </div>
-      </div>
-    </div>
-    <div class="reveal">
-      <form class="form-card" id="quoteForm">
-        <h3>Request a Quote</h3>
-        <p class="sub">Typically a same-day reply.</p>
-        <div class="row2">
-          <div class="field"><label>Name</label><input required name="name" /></div>
-          <div class="field"><label>Phone</label><input required name="phone" /></div>
-        </div>
-        <div class="field"><label>Email</label><input type="email" name="email" /></div>
-        <div class="row2">
-          <div class="field"><label>Parish</label>
-            <select name="parish"><option>Acadia</option><option>St. Landry</option><option selected>Lafayette</option><option>Other / nearby</option></select>
-          </div>
-          <div class="field"><label>Service</label>
-            <select name="service"><option>Boundary Survey</option><option>ALTA/NSPS</option><option>Topographic</option><option>FEMA Elevation Cert.</option><option>Subdivision</option><option>Control Network</option><option>Legal Description</option><option>Not sure yet</option></select>
-          </div>
-        </div>
-        <div class="field"><label>Project details</label><textarea name="details" placeholder="Property address, what you need, and any deadline."></textarea></div>
-        <button class="btn btn-primary" type="submit">Send request →</button>
-      </form>
-      <div class="form-success form-card" id="formSuccess">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg>
-        <h3>Request received.</h3>
-        <p>Thanks — Lance will follow up shortly. For anything urgent, call or text (337) 781-8375.</p>
       </div>
     </div>
   </div>
@@ -625,14 +521,7 @@
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
   }, { threshold: 0.12 });
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-  // form
-  const form = document.getElementById('quoteForm');
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    if (!form.checkValidity()) { form.reportValidity(); return; }
-    form.style.display = 'none';
-    document.getElementById('formSuccess').classList.add('show');
-  });
+  // form (removed)
 </script>
 </body>
 </html>
